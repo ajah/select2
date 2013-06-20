@@ -1167,6 +1167,10 @@ the specific language governing permissions and limitations under the Apache Lic
                 $dropdown.removeClass("select2-drop-above");
             }
 
+            if (!this.opts.displayInput) {
+                this.showSearch(false);
+            }
+
             css = $.extend({
                 top: dropTop,
                 left: dropLeft,
@@ -1543,7 +1547,7 @@ the specific language governing permissions and limitations under the Apache Lic
                 } else {
                     render("");
                 }
-                if (initial && this.showSearch) this.showSearch(true);
+                if (initial && this.showSearch) this.showSearch(opts.displayInput);
                 return;
             }
 
@@ -1772,7 +1776,7 @@ the specific language governing permissions and limitations under the Apache Lic
             var el, range, len;
 
             if (this.opts.minimumResultsForSearch >= 0) {
-                this.showSearch(true);
+                this.showSearch(this.opts.displayInput);
             }
 
             this.parent.opening.apply(this, arguments);
@@ -1838,7 +1842,7 @@ the specific language governing permissions and limitations under the Apache Lic
                 container = this.container,
                 dropdown = this.dropdown;
 
-            if (this.opts.minimumResultsForSearch < 0) {
+            if (this.opts.minimumResultsForSearch < 0 || !this.opts.displayInput) {
                 this.showSearch(false);
             } else {
                 this.showSearch(true);
@@ -1911,7 +1915,7 @@ the specific language governing permissions and limitations under the Apache Lic
                     || (e.which == KEY.ENTER && this.opts.openOnEnter)) {
 
                     if (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) return;
-                    
+
                     this.open();
                     killEvent(e);
                     return;
@@ -2127,7 +2131,9 @@ the specific language governing permissions and limitations under the Apache Lic
 
             if (initial === true) {
                 var min = this.opts.minimumResultsForSearch;
-                if (min >= 0) {
+                if (this.opts.displayInput) {
+                    this.showSearch(false);
+                } else if (min >= 0) {
                     this.showSearch(countResults(data.results) >= min);
                 }
             }
