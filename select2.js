@@ -1888,8 +1888,9 @@ the specific language governing permissions and limitations under the Apache Lic
             }));
 
             selection.on("mousedown", this.bind(function (e) {
-                if (this.opts.clearInputOnFocus) {
+                if (this.opts.clearInputOnFocus && this.opts.element.val()) {
                   this.opts.element.val("");
+                  this.opts.element.change();
                   selection.find('span').text(this.opts.placeholder);
                 }
                 if (!this.container.hasClass("select2-container-active")) {
